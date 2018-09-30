@@ -83,3 +83,18 @@ clean:
 	rm -rf jscut_standalone.tar.gz
 	rm -rf js/cam-cpp.js
 	rm -rf js/cam-cpp.js.mem
+
+NAME = front
+
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+COMMIT = $(shell git rev-parse --short HEAD)
+BUILDTIME = $(shell date +%Y-%m-%dT%T%z)
+LASTTAG = $(shell git describe --tags --abbrev=0 --dirty)
+
+LD_OPTS = -ldflags="-X main.branch=${BRANCH} -X main.commit=${COMMIT} -X main.lasttag=${LASTTAG} -X main.buildtime=${BUILDTIME} -w "
+	
+build:
+	go build $(LD_OPTS) -o $(NAME) . && cd -
+
+dist:
+    GOOS=linux GOARCH=amd64 go build $(LD_OPTS)  -o $(NAME) .
