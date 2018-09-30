@@ -98,3 +98,7 @@ build:
 
 dist:
     GOOS=linux GOARCH=amd64 go build $(LD_OPTS)  -o $(NAME) .
+
+run:
+    GOOS=linux GOARCH=amd64 go build $(LD_OPTS)  -o $(NAME) . && ./front
+    
